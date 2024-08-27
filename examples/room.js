@@ -4,23 +4,23 @@
 let mapSourceRaw = [];
 AFRAME.registerComponent('room', {
     schema: {
-        wallColor: {type: 'string', default: 'white'},
-        floorColor: {type: 'string', default: 'white'},
-        wallTexture: {type: 'string', default: 'none'},
-        wallTexture2: {type: 'string', default: 'none'},
-        wallTexture3: {type: 'string', default: 'none'},
-        scale:{type: 'string', default: '1 1 1'},
-        wallSize: {type:'string', default:'1'},
-        wallHeight: {type:'string', default:'3'},
-        mapToLoad: {type:'string', default: 'map'},
-        mapSource: {type:'array', default:[]},
-        indoor: {type:'boolean', default:false}
+        wallColor: { type: 'string', default: 'white' },
+        floorColor: { type: 'string', default: 'white' },
+        wallTexture: { type: 'string', default: 'none' },
+        wallTexture2: { type: 'string', default: 'none' },
+        wallTexture3: { type: 'string', default: 'none' },
+        scale: { type: 'string', default: '1 1 1' },
+        wallSize: { type: 'string', default: '1' },
+        wallHeight: { type: 'string', default: '3' },
+        mapToLoad: { type: 'string', default: 'map' },
+        mapSource: { type: 'array', default: [] },
+        indoor: { type: 'boolean', default: false }
     },
     init: async function () {
         await this.loadData()
     },
 
-    loadData : async function() {
+    loadData: async function () {
         //scene loading / aFrame loading
         const data = this.data;
         const mapToLoad = data.mapToLoad;
@@ -29,17 +29,17 @@ AFRAME.registerComponent('room', {
         await this.createRooms();
     },
 
-    loadMap : async function loadMap(mapToLoad) {
+    loadMap: async function loadMap(mapToLoad) {
         const data = this.data;
-        let fetchURL = mapToLoad+'.json';
+        let fetchURL = mapToLoad + '.json';
         const res = await fetch(fetchURL)
         mapSourceRaw = await res.json();
-        this.data.mapSource =  mapSourceRaw
+        this.data.mapSource = mapSourceRaw
     },
 
-    createRooms: function (){
+    createRooms: function () {
         const data = this.data;
-        const mapSource =  this.data.mapSource
+        const mapSource = this.data.mapSource
         const wallTexture = data.wallTexture;
         const wallTexture2 = data.wallTexture2;
         const wallTexture3 = data.wallTexture3;
@@ -52,7 +52,7 @@ AFRAME.registerComponent('room', {
         let mapWall;
         const WALL_SIZE = data.wallSize;
         const WALL_HEIGHT = data.wallHeight;
-        console.log(mapSource ,WALL_SIZE, WALL_HEIGHT , mapSource.height )
+        console.log(mapSource, WALL_SIZE, WALL_HEIGHT, mapSource.height)
         for (let x = 0; x < mapSource.height; x++) {
             for (let y = 0; y < mapSource.width; y++) {
                 console.log('room running');
@@ -66,34 +66,37 @@ AFRAME.registerComponent('room', {
 
                 // if the number is 1 - 4, create a wall
                 if (mapSource.data[i] === 0 || mapSource.data[i] === 1 || mapSource.data[i] == 2 || mapSource.data[i] === 3) {
-                   let  wall = document.createElement('a-box');
+                    let wall = document.createElement('a-box');
                     wall.setAttribute('width', WALL_SIZE);
                     wall.setAttribute('height', WALL_HEIGHT);
                     wall.setAttribute('depth', WALL_SIZE);
                     wall.setAttribute('position', position);
                     wall.setAttribute('static-body', '');
-                    wall.setAttribute('material', 'src:#' + wallTexture);
+                    wall.setAttribute('material', 'src:#' + wallTexture); 
                     this.el.appendChild(wall);
 
-                    if (indoor){
-                        let roof= document.createElement('a-box');
-                        roof.setAttribute('color', floorColor );
-                        roof.setAttribute('height',WALL_HEIGHT / 20 );
+                    if (indoor) {
+                        let roof = document.createElement('a-box');
+                        roof.setAttribute('color', wallColor);
+                        roof.setAttribute('height', WALL_HEIGHT / 20);
                         roof.setAttribute('position', roofPos);
-                        roof.setAttribute('material', 'src:#' + wallTexture);
+                        roof.setAttribute('material', 'src:#' + wallTexture2);
                         this.el.appendChild(roof);
                     }
+                    
                     // floor
                     if (mapSource.data[i] === 0) {
-                        wall.setAttribute('color', floorColor );
+                        wall.setAttribute('color', floorColor);
                         wall.setAttribute('height', WALL_HEIGHT / 20);
                         wall.setAttribute('static-body', '');
                         wall.setAttribute('position', floorPos);
+                        // por alguna razon 'src' no funciona para texturizar piso, 
+                        // en cambio 'map' si...update: mentira, toma el texture de "wallTexture"
                         wall.setAttribute('material', 'src:#' + floorTexture);
-                        wall.setAttribute('playermovement','');
+                        wall.setAttribute('playermovement', '');
 
 
-                    }
+                    }   
                     // full height wall
                     if (mapSource.data[i] === 1) {
                         wall.setAttribute('color', wallColor);
@@ -123,4 +126,26 @@ AFRAME.registerComponent('room', {
         }
     },
 });
+
+AFRAME.registerComponent('chat-box', {
+    init: function () {
+        const btn = document.querySelector("#chatButton"); //Boton Enviar
+        const input = document.querySelector("#chatInput"); //Campo de entrada de texto
+        const log = document.querySelector("#messages"); //logchatInput de mensajes
+        console.log(btn);
+        //cuando quieres enviar mensajes
+        btn.addEventListener("click", evt => {
+            //logear tus propios mensajes (verlos en el chatbox)
+            messages.innerHTML += NAF.clientId + ": " + input.value + '<br>'
+            //transmite el texto como algun dataType unico (como "chat")
+            NAF.connection.broadcastData("chat", { txt: input.value })
+        })
+
+        //cuando un mensaje tipo "chat" arriva
+        NAF.connection.subscribeToDataChannel("chat", (senderId, dataType, data, targetId) => {
+            //apendiza el data.txt. al log el mensaje
+            messages.innerHTML += senderId + ":" + data.txt + '<br>'
+        })
+    }
+})
 
