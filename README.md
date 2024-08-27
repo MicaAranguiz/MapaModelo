@@ -1,1 +1,1 @@
-construido sobre "Prueba1.html" 
+construido sobre "Prueba.html" mas no "prueba2".
