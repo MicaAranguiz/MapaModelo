@@ -92,7 +92,7 @@ AFRAME.registerComponent('room', {
                         wall.setAttribute('position', floorPos);
                         // por alguna razon 'src' no funciona para texturizar piso, 
                         // en cambio 'map' si...update: mentira, toma el texture de "wallTexture"
-                        wall.setAttribute('material', 'src:#' + floorTexture);
+                        // wall.setAttribute('material', 'src:#' + floorTexture);
                         wall.setAttribute('playermovement', '');
 
 
