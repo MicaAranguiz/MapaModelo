@@ -33,6 +33,11 @@
 
     <a-scene>
         <a-assets>
+
+            <template id="rig-template">
+                <a-entity></a-entity>
+              </template>
+
             <!--textures-->
 
             <img id="techo" src="./textures/personalizados/techo.jpg">
@@ -70,10 +75,15 @@
             <button id="chatButton"> Enviar </button>
             <div id="messages"></div>
         </div>
+        <div style="z-index: 100; bottom: 24px; left: 48px; position: fixed">
+            <h3 style="color: #fff; user-select: none">Your Name :</h3>
+            <input id="user-name" />
+        </div>
         <a-entity light="type: ambient; color: #edb886;     intensity:0.3;"></a-entity>
         <a-entity chat-box></a-entity>
         <!-- <a-entity id="camera" position='3 1.5 -1' rotation="90 90 90" camera look-controls wasd-controls></a-entity> -->
-        <a-entity id="rig" position='8 1.5 2' rotation="0 50 0 ">
+        <!-- movement-controls="fly:true; acceleration:20;" -->
+        <a-entity id="rig"  networked="template:#rig-template;" position='8 1.5 2' rotation="0 50 0 ">
             <a-entity id="camera" camera look-controls="pointerLockEnabled: true"
                 wasd-controls="acceleration:20"></a-entity>
         </a-entity>

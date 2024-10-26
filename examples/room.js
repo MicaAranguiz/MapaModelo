@@ -129,13 +129,15 @@ AFRAME.registerComponent('chat-box', {
     init: function () {
         const btn = document.querySelector("#chatButton"); //Boton Enviar
         const input = document.querySelector("#chatInput"); //Campo de entrada de texto
-        const log = document.querySelector("#messages"); //logchatInput de mensajes
+        const log = document.querySelector('.messages'); //logchatInput de mensajes
+        const username = document.querySelector('#user-name');
+        username.value = 'user-' + Math.round(Math.random() * 10000);
         console.log(btn);
         const enviarMensaje = () => {
             //logear tus propios mensajes (verlos en el chatbox)
-            messages.innerHTML += NAF.clientId + ": " + input.value + '<br>'
+            messages.innerHTML += NAF.clientId + username.value + ": " + input.value + '<br>'
             //transmite el texto como algun dataType unico (como "chat")
-            NAF.connection.broadcastData("chat", { txt: input.value })
+            NAF.connection.broadcastData("chat", { txt: input.value, name: username.value })
         } 
 
         //cuando quieres enviar mensajes con el boton enviar
