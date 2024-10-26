@@ -7,7 +7,7 @@
     <title>Demo</title>
 
     <!-- A-frame -->
-    <script src="https://aframe.io/releases/1.6.0/aframe.js"></script>
+    <script src="https://aframe.io/releases/1.3.0/aframe.js"></script>
 
 
 
@@ -21,7 +21,7 @@
 
 
     <!--    used for flying in this demo  -->
-    <!-- <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.5.0/dist/aframe-extras.controls.min.js"></script> no arme rig asi que todavia no -->
+    <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.5.0/dist/aframe-extras.controls.min.js"></script>
 
 
     <link rel="stylesheet" href="style.css">
@@ -36,12 +36,15 @@
             <!--textures-->
 
             <img id="techo" src="./textures/personalizados/techo.jpg">
-            <img id="piso" src="./textures/personalizados/pisomarron.jpg">
-            <img id="pared" src="./textures/personalizados/piedra.jpg">
+            <img id="piso" src="./textures/personalizados/piso.jpg">
+            <img id="pisomarron" src="./textures/personalizados/pisomarron.jpg">
+            <img id="pisocrema" src="./textures/personalizados/pisocrema.jpg">
+            <img id="paredblanca" src="./textures/personalizados/paredblanca.jpg">
+            <img id="paredmarron" src="./textures/personalizados/paredmarron.jpg">
             <img id="mesi" src="./textures/personalizados/mesi.jpg">
             <img id="messicopa" src="./textures/personalizados/messicopa.jpg">
             <img id="messitransparent" src="./textures/personalizados/messitransparent.png">
-            <!-- Templates --> 
+            <!-- Templates -->
 
             <!-- Avatar -->
             <template id="avatar-template">
@@ -67,11 +70,12 @@
             <button id="chatButton"> Enviar </button>
             <div id="messages"></div>
         </div>
-        <a-entity light="type: ambient; color: #edb886;     intensity:0.5;"></a-entity>
+        <a-entity light="type: ambient; color: #edb886;     intensity:0.3;"></a-entity>
         <a-entity chat-box></a-entity>
         <!-- <a-entity id="camera" position='3 1.5 -1' rotation="90 90 90" camera look-controls wasd-controls></a-entity> -->
-        <a-entity id="rig" position='8 1.5 -4' rotation="0 90 0 ">
-            <a-entity id="camera" camera look-controls="pointerLockEnabled: true" wasd-controls="acceleration:20" ></a-entity>
+        <a-entity id="rig" position='8 1.5 2' rotation="0 50 0 ">
+            <a-entity id="camera" camera look-controls="pointerLockEnabled: true"
+                wasd-controls="acceleration:20"></a-entity>
         </a-entity>
 
         <a-scene>
@@ -84,22 +88,23 @@
             <a-plane src="#mesi" height="1.5" width="1.5" rotation="0 90 0" position="0.505 2.30 -2.25 "></a-plane>
             <a-plane src="#mesi" height="1.5" width="1.5" rotation="0 90 0" position="0.505 0.8 -3.75 "></a-plane>
             <a-plane src="#messicopa" height="3" width="3" rotation="0 90 0" position="0.505 1.5 0 "></a-plane>
-            
+
             <a-plane src="#messicopa" height="3" width="3" rotation="0 0 0" position="3.160 1.5 -6.49"></a-plane>
             <a-plane src="#messicopa" height="2" width="2" rotation="0 0 0" position="5.75 1.5 -6.49"></a-plane>
             <a-plane src="#messicopa" height="1" width="1" rotation="0 0 0" position="7.31 1.5 -6.49"></a-plane>
             <a-plane src="#messicopa" height="0.5" width="0.5" rotation="0 0 0" position="8.1 1.5 -6.49"></a-plane>
-            <a-plane src="#messitransparent" material="transparent: true" height="3" width="3" rotation="0 90 0" position="0.505 1.3 3 "></a-plane>
-            
+            <a-plane src="#messitransparent" material="transparent: true" height="3" width="3" rotation="0 90 0"
+                position="0.505 1.3 3 "></a-plane>
+
         </a-scene>
         <a-entity id="room" room="mapToLoad:map;
-             wallColor:#c5a898;
-             wallTexture:pared;
-             wallTexture2:techo; 
-             wallTexture3:mesi;
-             floorColor:#cfff00;
-             floorTexture:piso; 
-             indoor:true">
+            wallColor:#2E2756;
+            wallTexture:techo;
+            wallTexture2:paredblanca; 
+            wallTexture3:paredblanca;
+            floorTexture:pisocrema; 
+            indoor:true">
+        </a-entity>
         </a-entity>
         <a-sky id="sky" color="#7AA1C1"></a-sky>
     </a-scene>

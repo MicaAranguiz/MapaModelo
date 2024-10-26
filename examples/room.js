@@ -77,10 +77,10 @@ AFRAME.registerComponent('room', {
 
                     if (indoor) {
                         let roof = document.createElement('a-box');
-                        roof.setAttribute('color', wallColor);
+                        roof.setAttribute('color', floorColor);
                         roof.setAttribute('height', WALL_HEIGHT / 20);
                         roof.setAttribute('position', roofPos);
-                        roof.setAttribute('material', 'src:#' + wallTexture2);
+                        roof.setAttribute('material', 'src:#' + wallTexture);
                         this.el.appendChild(roof);
                     }
                     
@@ -90,9 +90,7 @@ AFRAME.registerComponent('room', {
                         wall.setAttribute('height', WALL_HEIGHT / 20);
                         wall.setAttribute('static-body', '');
                         wall.setAttribute('position', floorPos);
-                        // por alguna razon 'src' no funciona para texturizar piso, 
-                        // en cambio 'map' si...update: mentira, toma el texture de "wallTexture"
-                        // wall.setAttribute('material', 'src:#' + floorTexture);
+                        wall.setAttribute('material', 'src:#' + floorTexture);
                         wall.setAttribute('playermovement', '');
 
 
@@ -133,12 +131,21 @@ AFRAME.registerComponent('chat-box', {
         const input = document.querySelector("#chatInput"); //Campo de entrada de texto
         const log = document.querySelector("#messages"); //logchatInput de mensajes
         console.log(btn);
-        //cuando quieres enviar mensajes
-        btn.addEventListener("click", evt => {
+        const enviarMensaje = () => {
             //logear tus propios mensajes (verlos en el chatbox)
             messages.innerHTML += NAF.clientId + ": " + input.value + '<br>'
             //transmite el texto como algun dataType unico (como "chat")
             NAF.connection.broadcastData("chat", { txt: input.value })
+        } 
+
+        //cuando quieres enviar mensajes con el boton enviar
+        btn.addEventListener("click", enviarMensaje);
+
+        //con enter
+        input.addEventListener("keydown", (event) => {
+            if (event.key === 'Enter') {
+                enviarMensaje();
+            }
         })
 
         //cuando un mensaje tipo "chat" arriva
