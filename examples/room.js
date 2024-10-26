@@ -131,7 +131,7 @@ AFRAME.registerComponent('chat-box', {
         const input = document.querySelector("#chatInput"); //Campo de entrada de texto
         const log = document.querySelector('.messages'); //logchatInput de mensajes
         const username = document.querySelector('#user-name');
-        username.value = 'user-' + Math.round(Math.random() * 10000);
+        username.value = 'usuario' + Math.round(Math.random() * 10000);
         console.log(btn);
         const enviarMensaje = () => {
             //logear tus propios mensajes (verlos en el chatbox)
