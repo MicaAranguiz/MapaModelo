@@ -170,3 +170,4 @@ AFRAME.registerComponent('vr-camera-position', {
     }
   });
 
+
