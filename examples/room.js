@@ -157,4 +157,16 @@ AFRAME.registerComponent('chat-box', {
         })
     }
 })
+//Componente para evitar que el modo VR spawnee el rig dentro de las paredes o techos
+AFRAME.registerComponent('vr-camera-position', {
+    init: function () {
+      var el = this.el;
+      el.addEventListener('vr-mode-change', function (evt) {
+        if (evt.detail.enterVR) {
+          // Entrando en modo VR, ajusta la posición aquí
+          el.setAttribute('position', '8 1.5 2');
+        }
+      });
+    }
+  });
 
