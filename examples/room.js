@@ -73,6 +73,10 @@ AFRAME.registerComponent('room', {
                     wall.setAttribute('position', position);
                     wall.setAttribute('static-body', '');
                     wall.setAttribute('material', 'src:#' + wallTexture);
+                    wall.setAttribute('class', 'collidable')
+                    wall.setAttribute('obb-collider', {
+                        objects: '.collidable'
+                    })
                     this.el.appendChild(wall);
 
                     if (indoor) {
@@ -81,6 +85,10 @@ AFRAME.registerComponent('room', {
                         roof.setAttribute('height', WALL_HEIGHT / 20);
                         roof.setAttribute('position', roofPos);
                         roof.setAttribute('material', 'src:#' + wallTexture);
+                        roof.setAttribute('obb-collider', {
+                            objects: '.collidable'
+                        })
+                        roof.setAttribute('class', 'collidable')
                         this.el.appendChild(roof);
                     }
 
@@ -92,6 +100,10 @@ AFRAME.registerComponent('room', {
                         wall.setAttribute('position', floorPos);
                         wall.setAttribute('material', 'src:#' + floorTexture);
                         wall.setAttribute('playermovement', '');
+                        wall.setAttribute('class', 'collidable')
+                        wall.setAttribute('obb-collider', {
+                            objects: '.collidable'
+                        })
 
 
                     }
@@ -102,6 +114,10 @@ AFRAME.registerComponent('room', {
                         wall.setAttribute('static-body', '');
                         wall.setAttribute('position', position);
                         wall.setAttribute('material', 'src:#' + wallTexture);
+                        wall.setAttribute('class', 'collidable')
+                        wall.setAttribute('obb-collider', {
+                            objects: '.collidable'
+                        })
                     }
                     // 1/2 height wall
                     if (mapSource.data[i] === 2) {
@@ -110,6 +126,10 @@ AFRAME.registerComponent('room', {
                         wall.setAttribute('static-body', '');
                         wall.setAttribute('position', halfYposition);
                         wall.setAttribute('material', 'src:#' + wallTexture2);
+                        wall.setAttribute('class', 'collidable')
+                        wall.setAttribute('obb-collider', {
+                            objects: '.collidable'
+                        })
                     }
                     //  1/4 height wall
                     if (mapSource.data[i] === 3) {
@@ -118,6 +138,10 @@ AFRAME.registerComponent('room', {
                         wall.setAttribute('static-body', '');
                         wall.setAttribute('position', quarterYposition);
                         wall.setAttribute('material', 'src:#' + wallTexture3);
+                        wall.setAttribute('class', 'collidable')
+                        wall.setAttribute('obb-collider', {
+                            objects: '.collidable'
+                        })
                     }
                 }
             }
@@ -163,8 +187,8 @@ AFRAME.registerComponent('vr-camera-reset', {
     init: function () {
         var el = this.el;
         el.addEventListener('vr-mode-enter', function () {
-          // Ajusta la posición de la cámara aquí
-          el.querySelector('#rig').setAttribute('position', '8 1.5 2');
+            // Ajusta la posición de la cámara aquí
+            el.querySelector('#rig').setAttribute('position', '8 1.5 2');
         });
-      }
-    });
+    }
+});
