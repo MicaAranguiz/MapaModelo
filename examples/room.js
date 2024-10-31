@@ -72,7 +72,11 @@ AFRAME.registerComponent('room', {
                     wall.setAttribute('depth', WALL_SIZE);
                     wall.setAttribute('position', position);
                     wall.setAttribute('static-body', '');
-                    wall.setAttribute('material', 'src:#' + wallTexture); 
+                    wall.setAttribute('material', 'src:#' + wallTexture);
+                    wall.setAttribute('class', 'collidable')
+                    wall.setAttribute('obb-collider', {
+                        objects: '.collidable'
+                    })
                     this.el.appendChild(wall);
 
                     if (indoor) {
@@ -81,9 +85,13 @@ AFRAME.registerComponent('room', {
                         roof.setAttribute('height', WALL_HEIGHT / 20);
                         roof.setAttribute('position', roofPos);
                         roof.setAttribute('material', 'src:#' + wallTexture);
+                        roof.setAttribute('obb-collider', {
+                            objects: '.collidable'
+                        })
+                        roof.setAttribute('class', 'collidable')
                         this.el.appendChild(roof);
                     }
-                    
+
                     // floor
                     if (mapSource.data[i] === 0) {
                         wall.setAttribute('color', floorColor);
@@ -92,9 +100,13 @@ AFRAME.registerComponent('room', {
                         wall.setAttribute('position', floorPos);
                         wall.setAttribute('material', 'src:#' + floorTexture);
                         wall.setAttribute('playermovement', '');
+                        wall.setAttribute('class', 'collidable')
+                        wall.setAttribute('obb-collider', {
+                            objects: '.collidable'
+                        })
 
 
-                    }   
+                    }
                     // full height wall
                     if (mapSource.data[i] === 1) {
                         wall.setAttribute('color', wallColor);
@@ -102,6 +114,10 @@ AFRAME.registerComponent('room', {
                         wall.setAttribute('static-body', '');
                         wall.setAttribute('position', position);
                         wall.setAttribute('material', 'src:#' + wallTexture);
+                        wall.setAttribute('class', 'collidable')
+                        wall.setAttribute('obb-collider', {
+                            objects: '.collidable'
+                        })
                     }
                     // 1/2 height wall
                     if (mapSource.data[i] === 2) {
@@ -110,6 +126,10 @@ AFRAME.registerComponent('room', {
                         wall.setAttribute('static-body', '');
                         wall.setAttribute('position', halfYposition);
                         wall.setAttribute('material', 'src:#' + wallTexture2);
+                        wall.setAttribute('class', 'collidable')
+                        wall.setAttribute('obb-collider', {
+                            objects: '.collidable'
+                        })
                     }
                     //  1/4 height wall
                     if (mapSource.data[i] === 3) {
@@ -118,6 +138,10 @@ AFRAME.registerComponent('room', {
                         wall.setAttribute('static-body', '');
                         wall.setAttribute('position', quarterYposition);
                         wall.setAttribute('material', 'src:#' + wallTexture3);
+                        wall.setAttribute('class', 'collidable')
+                        wall.setAttribute('obb-collider', {
+                            objects: '.collidable'
+                        })
                     }
                 }
             }
@@ -138,7 +162,7 @@ AFRAME.registerComponent('chat-box', {
             messages.innerHTML += NAF.clientId + username.value + ": " + input.value + '<br>'
             //transmite el texto como algun dataType unico (como "chat")
             NAF.connection.broadcastData("chat", { txt: input.value, name: username.value })
-        } 
+        }
 
         //cuando quieres enviar mensajes con el boton enviar
         btn.addEventListener("click", enviarMensaje);
@@ -156,5 +180,15 @@ AFRAME.registerComponent('chat-box', {
             messages.innerHTML += senderId + ":" + data.txt + '<br>'
         })
     }
-})
+});
 
+//evita que VR spawnee la camara por encima del techo
+AFRAME.registerComponent('vr-camera-reset', {
+    init: function () {
+        var el = this.el;
+        el.addEventListener('vr-mode-enter', function () {
+            // Ajusta la posición de la cámara aquí
+            el.querySelector('#rig').setAttribute('position', '8 1.5 2');
+        });
+    }
+});
